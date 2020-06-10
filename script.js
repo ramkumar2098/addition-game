@@ -8,11 +8,10 @@ restart.addEventListener('click', () => {
   score.textContent = 0;
   options.forEach(option => {
     option.disabled = false;
-    option.style.backgroundColor = 'unset';
   });
   startTimer();
   operands();
-  optionss();
+  _options();
 });
 
 const timer = document.querySelector('.timer');
@@ -23,7 +22,7 @@ function startTimer() {
   function _startTimer() {
     if (!time) {
       clearInterval(startTimerr);
-      gameOver.style.display = 'block';
+      gameOver.style.display = 'grid';
       options.forEach(option => (option.disabled = true));
     }
 
@@ -37,7 +36,8 @@ function startTimer() {
 
 startTimer();
 
-const randomNumber = () => Math.ceil(Math.random() * 100);
+let range = 100;
+const randomNumber = () => Math.ceil(Math.random() * range);
 
 function operands() {
   const operand1 = document.querySelector('.operand1');
@@ -52,13 +52,12 @@ function operands() {
 
 operands();
 
-const options = document.querySelectorAll('.option');
+const options = document.querySelectorAll('.options > button');
 
-function optionss() {
+function _options() {
   const correctOption = Math.floor(Math.random() * 4);
 
   options[correctOption].textContent = operand1Value + operand2Value;
-  options[correctOption].style.backgroundColor = 'red';
 
   for (i = 0; i < 4; i++) {
     if (i !== correctOption) {
@@ -71,7 +70,7 @@ function optionss() {
   }
 }
 
-optionss();
+_options();
 
 const score = document.querySelector('.score');
 score.textContent = 0;
@@ -80,11 +79,15 @@ options.forEach(option =>
   option.addEventListener('click', e => {
     if (e.target.textContent == operand1Value + operand2Value) {
       score.textContent++;
-      e.target.style.backgroundColor = 'unset';
+      !(Number(score.textContent) % 10) && (range = range + 100);
+      clearInterval(startTimerr);
+      time = 10;
+      timer.textContent = time;
+      startTimer();
       operands();
-      optionss();
+      _options();
     } else {
-      gameOver.style.display = 'block';
+      gameOver.style.display = 'grid';
       clearInterval(startTimerr);
       options.forEach(option => (option.disabled = true));
     }
