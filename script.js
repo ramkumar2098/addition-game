@@ -1,3 +1,14 @@
+const start = document.querySelector('.start');
+
+start.addEventListener('click', e => {
+  e.target.style.display = 'none';
+
+  document.querySelector('body > div:nth-of-type(3)').style.display = 'flex';
+  document.querySelector('body > div:nth-of-type(4)').style.display = 'flex';
+
+  startTimer();
+});
+
 const gameOver = document.querySelector('.gameOver');
 const restart = document.querySelector('.restart');
 
@@ -5,6 +16,7 @@ restart.addEventListener('click', () => {
   gameOver.style.display = 'none';
   time = 10;
   timer.textContent = time;
+  range = 100;
   score.textContent = 0;
   options.forEach(option => {
     option.disabled = false;
@@ -16,12 +28,12 @@ restart.addEventListener('click', () => {
 
 const timer = document.querySelector('.timer');
 let time = 10;
-let startTimerr;
+let timerID;
 
 function startTimer() {
   function _startTimer() {
     if (!time) {
-      clearInterval(startTimerr);
+      clearInterval(timerID);
       gameOver.style.display = 'grid';
       options.forEach(option => (option.disabled = true));
     }
@@ -31,10 +43,8 @@ function startTimer() {
   }
   _startTimer();
 
-  startTimerr = setInterval(_startTimer, 1000);
+  timerID = setInterval(_startTimer, 1000);
 }
-
-startTimer();
 
 let range = 100;
 const randomNumber = () => Math.ceil(Math.random() * range);
@@ -80,7 +90,7 @@ options.forEach(option =>
     if (e.target.textContent == operand1Value + operand2Value) {
       score.textContent++;
       !(Number(score.textContent) % 10) && (range = range + 100);
-      clearInterval(startTimerr);
+      clearInterval(timerID);
       time = 10;
       timer.textContent = time;
       startTimer();
@@ -88,7 +98,7 @@ options.forEach(option =>
       _options();
     } else {
       gameOver.style.display = 'grid';
-      clearInterval(startTimerr);
+      clearInterval(timerID);
       options.forEach(option => (option.disabled = true));
     }
   })

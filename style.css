@@ -20,6 +20,16 @@ body > div {
   margin-bottom: 0.5rem;
 }
 
+body > div:nth-of-type(3),
+body > div:nth-of-type(4) {
+  display: none;
+}
+
+.start {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .options {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
