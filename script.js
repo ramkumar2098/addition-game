@@ -3,27 +3,29 @@ const start = document.querySelector('.start');
 start.addEventListener('click', e => {
   e.target.style.display = 'none';
 
-  document.querySelector('body > div:nth-of-type(3)').style.display = 'flex';
-  document.querySelector('body > div:nth-of-type(4)').style.display = 'flex';
+  document.querySelector('.operands').style.display = 'flex';
+  document.querySelector('.options').style.display = 'flex';
 
   startTimer();
 });
+
+function reset() {
+  time = 10;
+  timer.textContent = time;
+  startTimer();
+  displayOperands();
+  displayOptions();
+}
 
 const gameOver = document.querySelector('.gameOver');
 const restart = document.querySelector('.restart');
 
 restart.addEventListener('click', () => {
   gameOver.style.display = 'none';
-  time = 10;
-  timer.textContent = time;
-  range = 100;
   score.textContent = 0;
-  options.forEach(option => {
-    option.disabled = false;
-  });
-  startTimer();
-  operands();
-  _options();
+  range = 100;
+  options.forEach(option => (option.disabled = false));
+  reset();
 });
 
 const timer = document.querySelector('.timer');
@@ -34,7 +36,7 @@ function startTimer() {
   function _startTimer() {
     if (!time) {
       clearInterval(timerID);
-      gameOver.style.display = 'grid';
+      gameOver.style.display = 'block';
       options.forEach(option => (option.disabled = true));
     }
 
@@ -49,24 +51,25 @@ function startTimer() {
 let range = 100;
 const randomNumber = () => Math.ceil(Math.random() * range);
 
-function operands() {
-  const operand1 = document.querySelector('.operand1');
-  const operand2 = document.querySelector('.operand2');
+const operands = document.querySelectorAll('.operands > span');
 
+let operand1Value;
+let operand2Value;
+
+function displayOperands() {
   operand1Value = randomNumber();
   operand2Value = randomNumber();
 
-  operand1.textContent = operand1Value;
-  operand2.textContent = operand2Value;
+  operands[0].textContent = operand1Value;
+  operands[2].textContent = operand2Value;
 }
 
-operands();
+displayOperands();
 
-const options = document.querySelectorAll('.options > button');
+const options = document.querySelectorAll('.options button');
 
-function _options() {
+function displayOptions() {
   const correctOption = Math.floor(Math.random() * 4);
-
   options[correctOption].textContent = operand1Value + operand2Value;
 
   for (i = 0; i < 4; i++) {
@@ -80,7 +83,7 @@ function _options() {
   }
 }
 
-_options();
+displayOptions();
 
 const score = document.querySelector('.score');
 score.textContent = 0;
@@ -91,13 +94,9 @@ options.forEach(option =>
       score.textContent++;
       !(Number(score.textContent) % 10) && (range = range + 100);
       clearInterval(timerID);
-      time = 10;
-      timer.textContent = time;
-      startTimer();
-      operands();
-      _options();
+      reset();
     } else {
-      gameOver.style.display = 'grid';
+      gameOver.style.display = 'block';
       clearInterval(timerID);
       options.forEach(option => (option.disabled = true));
     }

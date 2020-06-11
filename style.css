@@ -20,8 +20,9 @@ body > div {
   margin-bottom: 0.5rem;
 }
 
-body > div:nth-of-type(3),
-body > div:nth-of-type(4) {
+.operands,
+.options,
+.gameOver {
   display: none;
 }
 
@@ -30,14 +31,8 @@ body > div:nth-of-type(4) {
   padding-right: 1rem;
 }
 
-.options {
+.options > div {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 1rem;
-}
-
-.gameOver {
-  display: none;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 0.5rem;
 }
